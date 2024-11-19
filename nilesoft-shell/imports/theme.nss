@@ -1,7 +1,8 @@
 ﻿theme
 {
-	name = "modern"
+	name = "auto"
 	dark = 1
+	view = view.auto
 	background
 	{
 		color = default

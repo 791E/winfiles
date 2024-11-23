@@ -3,6 +3,13 @@
 I use two terminal applications (Windows Terminal and WezTerm). In each I have the same PowerShell Core profile and use the scoop package manager for ecerything I can.
 Due to the size of WezTerm's config files, they have gotten their own folder [here](../wezterm).
 
+# Font
+Both terminal configurations use JetBrains Mono Nerd Font, but since there are different names for the font depending on how you download it, I decided to use the scoop name ("JetBrains Mono"). To install it, execute:
+```powershell
+scoop bucket add nerd-fonts
+scoop install nerd-fonts/JetBrains-Mono
+```
+
 ## Windows Terminal configuration
 
 The entire Windows Terminal configuration fits into the `settings.json` file, so you can make a symlink to keep it up to date.

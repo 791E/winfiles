@@ -1,4 +1,4 @@
-# 791E's dotfiles (based on VSparl's dotfiles)
+# 791E's winfiles (based on VSparl's dotfiles)
 
 Since these configs kind of work like dotfiles (just for Windows), this repo is called winfiles. But since it is Windows, the configs are scattered all over the filesystem. To combat this, I have made this repository containing the necessary files and instructions to set up symlinks in such a way that all my "would-be dotfiles" are gathered in one spot.
 Furthermore, this allows my configurations to stay updated and apply automatically, even if I make changes on only one device.

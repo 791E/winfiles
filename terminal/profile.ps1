@@ -1,5 +1,5 @@
 # Theme initialization
-oh-my-posh init pwsh --config "$home\programming\dotfiles\terminal\vsparl.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "$home\winfiles\terminal\vsparl.omp.json" | Invoke-Expression
 
 # Get nice icons of files when using ls
 Import-Module Terminal-Icons

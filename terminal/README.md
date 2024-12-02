@@ -39,6 +39,8 @@ Rename-Item -Force $home\Documents\PowerShell\Microsoft.Powershell_profile.ps1 M
 sudo cmd /c mklink $home\Documents\PowerShell\Microsoft.Powershell_profile.ps1 (Resolve-Path .\profile.ps1).Path
 ```
 
+If the `Microsoft.Powershell_profile.ps1` file (or the `PowerShell` folder) does not exist in `$home\Documents`, the config is probably in your OneDrive's `Documents` folder. In that case, manually move the `PowerShell` folder from `$home\OneDrive\Documents\` to `$home\Documents\`.
+
 ## Scoop package manager
 
 [Scoop](https://scoop.sh) is a package manager similar to winget, but it keeps all executables in one place for easier finding and to keep the PATH variable from getting cluttered.

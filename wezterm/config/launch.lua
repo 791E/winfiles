@@ -2,11 +2,6 @@ local platform = require('utils.platform')()
 local wezterm = require('wezterm')
 local act = wezterm.action
 
-wezterm.on('window-config-reloaded', function(window, pane)
-   -- start in fullscreen
-   window:perform_action(act.ToggleFullScreen, pane)
-end)
-
 local options = {
    default_prog = {},
    launch_menu = {},

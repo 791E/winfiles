@@ -1,14 +1,3 @@
-# Theme initialization
-oh-my-posh init pwsh --config "$home\winfiles\terminal\vsparl.omp.json" | Invoke-Expression
-
-# Get nice icons of files when using ls
-Import-Module Terminal-Icons
-
-# Set fzf as command history search handler
-Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+p' -PSReadlineChordReverseHistory 'Ctrl+r'
-# Make the fzf command more friendly
-Set-Alias fzf Invoke-Fzf
-
 # Override the default colors to match nord theme
 Set-PSReadLineOption -Colors @{
 	InlinePrediction = '#b48ead'
@@ -18,36 +7,55 @@ Set-PSReadLineOption -Colors @{
 }
 
 # Aliases
-Set-Alias celar clear
-Set-Alias claer clear
-Set-Alias cat bat
+Set-Alias lsa "lsd -AF1"
+Set-Alias lst "lsd -AF --tree --ignore-glob .git"
 Set-Alias paste Get-Clipboard
-Set-Alias l Get-ChildItem
-Set-Alias lvim 'C:\Users\sparl\.local\bin\lvim.ps1'
 
-# Function to remove items recursively and forced, similar to Unix's "rm -rf" command
-function rmf([string]$item)
-{
-	Remove-Item -Recurse -Force "$item"
+# Unix-like rm flags
+function rm {
+    param(
+        [Parameter(Position = 0, Mandatory = $true, ValueFromRemainingArguments = $true)]
+        [string[]]$Args
+    )
+
+    $Path = $Args[-1]
+    $removeParams = @{}
+
+    if ($Args -contains "-f") { $removeParams["Force"] = $true }
+    if ($Args -contains "-r" -or $Args -contains "-R") { $removeParams["Recurse"] = $true }
+    if ($Args -contains "-v") { $removeParams["Verbose"] = $true }
+    if ($Args -contains "-d") { 
+        if (-not (Test-Path $Path -PathType Container)) {
+            Write-Error "-d flag requires a directory, but '$Path' is not a directory"
+            return
+        }
+        if ((Get-ChildItem -Path $Path).Count -gt 0) {
+            Write-Error "-d flag requires the directory to be empty, but '$Path' is not empty"
+            return
+        }
+    }
+    
+    if ($Args -contains "-i") {
+        $confirmation = Read-Host "Are you sure you want to remove '$Path'? (y/n)"
+        if ($confirmation -ne 'y') {
+            Write-Output "Skipped: $Path"
+            return
+        }
+    }
+
+    try {
+        Remove-Item @removeParams -Path $Path -ErrorAction Stop
+    } catch {
+        Write-Error "Failed to remove $Path: $_"
+    }
 }
 
-# Function to list all files/folders in a directory, even if they are hidden or system files
-function la()
-{
-	Get-ChildItem -Force
-}
 
 # Function to create a new directory and directly switch to it
 function cnd([string]$name)
 {
 	mkdir $name
 	Set-Location $name
-}
-
-# Function to change directly to the school directory
-function cds()
-{
-	Set-Location "C:\Users\sparl\OneDrive - EDU ZG\Schuljahr 2024-2025"
 }
 
 # Function to list folder contents and sort them by date
@@ -70,7 +78,7 @@ function symlink {
 }
 
 # Function to fuzzily find files and preview them with live coloring through bat
-function fzf {
+function ff {
 	fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"
 }
 
@@ -84,9 +92,6 @@ function activate {
         Write-Error "No virtual environment found at .\.venv\Scripts\activate"
     }
 }
-
-# Function to display an image in WezTerm
-function imgcat([string]$img){wezterm imgcat $img}
 
 # Function to go back the specified number of directoy levels
 function b {
